@@ -5,6 +5,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import com.example.lamdonguyenbao.tablayout.adapter.ViewPagerAdapter;
 import com.example.lamdonguyenbao.tablayout.fragment.HistoryFragment;
 import com.example.lamdonguyenbao.tablayout.fragment.HospitalFragment;
 import com.example.lamdonguyenbao.tablayout.fragment.InforFragment;
