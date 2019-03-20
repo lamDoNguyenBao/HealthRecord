@@ -27,16 +27,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private int[] tabIcons = {
-            R.drawable.ic_filter_1_white_24dp,
-            R.drawable.ic_filter_2_white_24dp,
-            R.drawable.ic_filter_3_white_24dp
+            R.drawable.tab_person_black_24dp,
+            R.drawable.tab_history_black_24dp,
+            R.drawable.tab_person_black_24dp
     };
 
     private void setupViewPager() {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new InforFragment(), "Information");
-        adapter.addFragment(new HistoryFragment(), "History");
-        adapter.addFragment(new HospitalFragment(), "Hospital");
+        adapter.addFragment(new InforFragment(), "");
+        adapter.addFragment(new HistoryFragment(), "");
+        adapter.addFragment(new HospitalFragment(), "");
         viewPager.setAdapter(adapter);
     }
     private void setupTabIcons() {

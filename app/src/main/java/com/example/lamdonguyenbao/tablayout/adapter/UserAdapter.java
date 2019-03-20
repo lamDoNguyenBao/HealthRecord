@@ -1,20 +1,27 @@
 package com.example.lamdonguyenbao.tablayout.adapter;
 
+import android.Manifest;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.lamdonguyenbao.tablayout.R;
+import com.example.lamdonguyenbao.tablayout.fragment.HistoryFragment;
 import com.example.lamdonguyenbao.tablayout.model.User;
 import com.squareup.picasso.Picasso;
 
@@ -24,6 +31,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserItemViewHo
     private List<User> users;
     private Context context;
     private Dialog myDialog;
+    private static final int REQUEST_CALL = 1;
 
     public UserAdapter(List<User> users, Context c) {
         this.users = users;
@@ -43,14 +51,21 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserItemViewHo
         myDialog = new Dialog(context);
         myDialog.setContentView(R.layout.dialog_history);
         myDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        final TextView dialog_name_tv = (TextView) myDialog.findViewById(R.id.dialog_name_id);
+        final TextView dialog_phone_tv = (TextView) myDialog.findViewById(R.id.dialog_phone_id);
+        final ImageView dialog_avatar_img = (ImageView) myDialog.findViewById(R.id.dialog_image_avatar);
+        final Button dialog_button_call = (Button) myDialog.findViewById(R.id.dialog_button_call);
+
+        dialog_button_call.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
 
         vHolder.item_history.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Toast.makeText(context,"Test click"+ String.valueOf(vHolder.getAdapterPosition()),Toast.LENGTH_SHORT).show();
-                TextView dialog_name_tv = (TextView) myDialog.findViewById(R.id.dialog_name_id);
-                TextView dialog_phone_tv = (TextView) myDialog.findViewById(R.id.dialog_phone_id);
-                ImageView dialog_avatar_img = (ImageView) myDialog.findViewById(R.id.dialog_image_avatar);
                 dialog_name_tv.setText(users.get(vHolder.getAdapterPosition()).getLogin());
                 dialog_phone_tv.setText(users.get(vHolder.getAdapterPosition()).getId()+"");
                 Picasso.with(context)
@@ -61,6 +76,17 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserItemViewHo
         });
         return vHolder;
     }
+
+    public void makePhoneCall(){
+//        if(ContextCompat.checkSelfPermission(context, Manifest.permission.CALL_PHONE)!= PackageManager.PERMISSION_GRANTED)
+//            ActivityCompat.requestPermissions(myDialog.getOwnerActivity(), new String[]{Manifest.permission.CALL_PHONE}, REQUEST_CALL);
+//        else{
+            Intent callIntent = new Intent(Intent.ACTION_CALL);
+            callIntent.setData(Uri.parse("tel:123456789"));
+            context.startActivity(callIntent);
+//        }
+    }
+
 
     @Override
     public void onBindViewHolder(UserItemViewHolder holder, int position) {
