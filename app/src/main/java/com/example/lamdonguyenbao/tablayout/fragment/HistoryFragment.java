@@ -47,6 +47,7 @@ public class HistoryFragment extends Fragment implements UserAdapter.OnItemClick
     Button dialog_button_call;
     RecyclerView rvUsers;
     UserAdapter mAdpter;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,7 +56,7 @@ public class HistoryFragment extends Fragment implements UserAdapter.OnItemClick
 
     public ArrayList<Doctor> createData(){
         ArrayList<Doctor> doctor = new ArrayList<>();
-        for(int i=0; i<3; i++) {
+        for(int i=0; i<18; i++) {
             doctor.add(new Doctor("mojombo", "0123456789", "https://avatars0.githubusercontent.com/u/1?v=4"));
         }
         return doctor;
@@ -99,6 +100,5 @@ public class HistoryFragment extends Fragment implements UserAdapter.OnItemClick
                     .load(doctors.get(position).getAvatar_url())
                     .into(dialog_avatar_img);
             myDialog.show();
-//        onCellTapped("0113246546");
     }
 }
