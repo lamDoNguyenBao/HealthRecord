@@ -1,6 +1,11 @@
 package com.example.lamdonguyenbao.tablayout;
 
+import android.Manifest;
+import android.app.Activity;
+import android.content.pm.PackageManager;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,7 +16,9 @@ import com.example.lamdonguyenbao.tablayout.fragment.HospitalFragment;
 import com.example.lamdonguyenbao.tablayout.fragment.InforFragment;
 
 public class MainActivity extends AppCompatActivity {
-
+//
+//    private static final Activity ActivityCompat = ;
+    private static int REQUEST_PHONE_CALL = 1;
     private TabLayout tabLayout;
     private ViewPager viewPager;
 
@@ -27,10 +34,22 @@ public class MainActivity extends AppCompatActivity {
         setUpOneSignal();
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        getCallPhonePermission();
+    }
+
+    private void getCallPhonePermission() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CALL_PHONE}, REQUEST_PHONE_CALL);
+        }
+    }
+
     private int[] tabIcons = {
-            R.drawable.ic_filter_1_white_24dp,
-            R.drawable.ic_filter_2_white_24dp,
-            R.drawable.ic_filter_3_white_24dp
+            R.drawable.tab_person_black_24dp,
+            R.drawable.tab_history_black_24dp,
+            R.drawable.tab_person_black_24dp
     };
     private void setUpOneSignal(){
         OneSignal.startInit(this)
@@ -40,9 +59,9 @@ public class MainActivity extends AppCompatActivity {
     }
     private void setupViewPager() {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new InforFragment(), "Information");
-        adapter.addFragment(new HistoryFragment(), "History");
-        adapter.addFragment(new HospitalFragment(), "Hospital");
+        adapter.addFragment(new InforFragment(), "");
+        adapter.addFragment(new HistoryFragment(), "");
+        adapter.addFragment(new HospitalFragment(), "");
         viewPager.setAdapter(adapter);
     }
     private void setupTabIcons() {
