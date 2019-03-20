@@ -9,11 +9,15 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.example.lamdonguyenbao.tablayout.model.User;
 import com.onesignal.OneSignal;
 import com.example.lamdonguyenbao.tablayout.adapter.ViewPagerAdapter;
 import com.example.lamdonguyenbao.tablayout.fragment.HistoryFragment;
 import com.example.lamdonguyenbao.tablayout.fragment.HospitalFragment;
 import com.example.lamdonguyenbao.tablayout.fragment.InforFragment;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 //
@@ -33,6 +37,8 @@ public class MainActivity extends AppCompatActivity {
         setupTabIcons();
         setUpOneSignal();
     }
+
+
 
     @Override
     protected void onStart() {
