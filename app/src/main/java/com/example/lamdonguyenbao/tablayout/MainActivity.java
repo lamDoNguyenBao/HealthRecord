@@ -4,7 +4,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-
+import com.onesignal.OneSignal;
 import com.example.lamdonguyenbao.tablayout.adapter.ViewPagerAdapter;
 import com.example.lamdonguyenbao.tablayout.fragment.HistoryFragment;
 import com.example.lamdonguyenbao.tablayout.fragment.HospitalFragment;
@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
         setupViewPager();
         tabLayout.setupWithViewPager(viewPager);
         setupTabIcons();
+        setUpOneSignal();
     }
 
     private int[] tabIcons = {
@@ -31,7 +32,12 @@ public class MainActivity extends AppCompatActivity {
             R.drawable.tab_history_black_24dp,
             R.drawable.tab_person_black_24dp
     };
-
+    private void setUpOneSignal(){
+        OneSignal.startInit(this)
+                .inFocusDisplaying(OneSignal.OSInFocusDisplayOption.Notification)
+                .unsubscribeWhenNotificationsAreDisabled(true)
+                .init();
+    }
     private void setupViewPager() {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new InforFragment(), "");
