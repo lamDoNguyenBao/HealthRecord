@@ -24,5 +24,4 @@
         app:tabGravity="fill"
         android:background="#32dbc6"
         />
-        />
 </LinearLayout>

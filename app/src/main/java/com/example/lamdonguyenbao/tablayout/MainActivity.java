@@ -1,6 +1,11 @@
 package com.example.lamdonguyenbao.tablayout;
 
+import android.Manifest;
+import android.app.Activity;
+import android.content.pm.PackageManager;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,7 +16,9 @@ import com.example.lamdonguyenbao.tablayout.fragment.HospitalFragment;
 import com.example.lamdonguyenbao.tablayout.fragment.InforFragment;
 
 public class MainActivity extends AppCompatActivity {
-
+//
+//    private static final Activity ActivityCompat = ;
+    private static int REQUEST_PHONE_CALL = 1;
     private TabLayout tabLayout;
     private ViewPager viewPager;
 
@@ -25,6 +32,18 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(viewPager);
         setupTabIcons();
         setUpOneSignal();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        getCallPhonePermission();
+    }
+
+    private void getCallPhonePermission() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CALL_PHONE}, REQUEST_PHONE_CALL);
+        }
     }
 
     private int[] tabIcons = {
