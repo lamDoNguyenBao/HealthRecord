@@ -45,17 +45,6 @@
             android:text="Mobile call"
             android:textAlignment="textStart" />
 
-        <Button
-            android:id="@+id/dialog_button_message"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start"
-            android:background="@android:color/white"
-            android:drawableLeft="@drawable/dialog_message_black_24dp"
-            android:drawablePadding="20dp"
-            android:padding="20dp"
-            android:text="Doctor Messenger"
-            android:textAlignment="textStart" />
     </LinearLayout>
 
     <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"

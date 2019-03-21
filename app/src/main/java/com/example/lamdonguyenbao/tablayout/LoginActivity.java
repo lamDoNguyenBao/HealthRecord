@@ -50,7 +50,6 @@ public class LoginActivity extends AppCompatActivity {
             System.out.println(sharedpreferences.getString(token,""));
             Intent intent = new Intent(LoginActivity.this,MainActivity.class);
             startActivity(intent);
-
         }
 
     }
@@ -60,7 +59,6 @@ public class LoginActivity extends AppCompatActivity {
         if(!validate()){
             //postRequest();
             String n ="";
-
             SharedPreferences.Editor editor = sharedpreferences.edit();
             editor.putString(token,n);
             editor.commit();
