@@ -13,8 +13,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.sql.SQLOutput;
 
 import okhttp3.FormBody;
@@ -46,27 +48,17 @@ public class LoginActivity extends AppCompatActivity {
 
         sharedpreferences =  getSharedPreferences(mypreference, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedpreferences.edit();
-        editor.clear();
         if(sharedpreferences.contains(token1)){
-            System.out.println(sharedpreferences.getString(token1,""));
             Intent intent = new Intent(LoginActivity.this,MainActivity.class);
             startActivity(intent);
-
         }
 
     }
 
     public void onClick(View view) {
-
         if(!validate()){
             postRequest();
-
-
-//            Intent intent = new Intent(LoginActivity.this,MainActivity.class);
-//            startActivity(intent);
         }
-
-
     }
 
     public void postRequest(){
@@ -74,7 +66,6 @@ public class LoginActivity extends AppCompatActivity {
         AsyncTask asyncTask = new AsyncTask() {
             @Override
             protected Object doInBackground(Object[] objects) {
-
                 OkHttpClient client = new OkHttpClient();
 
                 RequestBody requestBody = new FormBody.Builder()
@@ -90,22 +81,15 @@ public class LoginActivity extends AppCompatActivity {
                     Response response = client.newCall(request).execute();
 
                     return  response.body().string();
-
-
                 }catch (Exception ex){
-
                     ex.printStackTrace();
-
                 }
                 return null;
             }
 
             @Override
             protected void onPostExecute(Object o) {
-
                 try {
-                    Log.i("object",o.toString());
-
                     JSONArray array = new JSONArray("["+o+"]");
                     for (int i = 0; i < array.length(); i++) {
                         JSONObject object = array.getJSONObject(i);
@@ -122,7 +106,6 @@ public class LoginActivity extends AppCompatActivity {
                             Toast.makeText(getApplicationContext(),"Fail",Toast.LENGTH_SHORT).show();
                         }
                     }
-
                 }catch (Exception ex){
                     ex.printStackTrace();
                 }
@@ -130,6 +113,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         }.execute();
     }
+
 
     private boolean validate() {
 

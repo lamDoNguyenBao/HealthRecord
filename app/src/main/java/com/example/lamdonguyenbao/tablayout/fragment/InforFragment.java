@@ -1,6 +1,7 @@
 package com.example.lamdonguyenbao.tablayout.fragment;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -20,6 +21,8 @@ public class InforFragment extends Fragment {
     private User user;
     TextView tv_name,tv_phone,tv_weight,tv_height,tv_birthday,tv_blood_pressure,tv_address,tv_blood_group;
     ImageView iv_avatar;
+    SharedPreferences sharedpreferences;
+    public static final String mypreference  = "mypre";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -66,4 +69,5 @@ public class InforFragment extends Fragment {
     public User getData(){
         return new User("Ngô Hữu Toàn","12-02-1997","Phú Đô, Nam Từ Liêm, Hà Nội","B-","0972322864","https://avatars0.githubusercontent.com/u/1?v=4",62,175,120);
     }
+
 }

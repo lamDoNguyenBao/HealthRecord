@@ -14,25 +14,26 @@ import android.widget.TextView;
 
 import com.example.lamdonguyenbao.tablayout.R;
 import com.example.lamdonguyenbao.tablayout.model.Doctor;
+import com.example.lamdonguyenbao.tablayout.model.History;
 import com.example.lamdonguyenbao.tablayout.model.User;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserItemViewHolder> {
-    private List<Doctor> doctors;
+    private List<History> history;
     private Context context;
     private OnItemClickListener mListener;
 
-    public UserAdapter(List<Doctor> doctors, Context c) {
-        this.doctors = doctors;
+    public UserAdapter(List<History> history, Context c) {
+        this.history = history;
         this.context = c;
     }
 
 
     @Override
     public int getItemCount() {
-        return doctors.size();
+        return history.size();
     }
 
     @Override
@@ -45,13 +46,10 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserItemViewHo
 
     @Override
     public void onBindViewHolder(UserItemViewHolder holder,final int position) {
-        Doctor doctor = doctors.get(position);
-        System.out.println(doctor.getAvatar_url());
-        Picasso.with(context)
-                .load(doctor.getAvatar_url())
-                .into(holder.ivAvatar);
-        holder.tvLoginName.setText(doctor.getName());
-        holder.tvId.setText(String.valueOf(doctor.getPhone()));
+        History historyItem = history.get(position);
+        holder.ivAvatar.setImageResource(R.drawable.hospital);
+        holder.tvLoginName.setText(historyItem.getName());
+        holder.tvId.setText(String.valueOf(historyItem.getTime()));
     }
 
     public void setOnItemClickListener(@NonNull OnItemClickListener listener){
@@ -81,7 +79,6 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserItemViewHo
         public void onClick(View v) {
             if(mListener != null){
                 mListener.onItemClick(getAdapterPosition());
-                Log.d("check", "onLongClick: "+getAdapterPosition());
             }
         }
     }

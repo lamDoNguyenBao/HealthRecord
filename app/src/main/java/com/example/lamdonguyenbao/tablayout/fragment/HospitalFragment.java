@@ -29,10 +29,10 @@ public class HospitalFragment extends Fragment implements HospitalAdapter.OnItem
     View v;
     Dialog myDialog;
     List<Doctor> doctors;
-//    TextView dialog_name_tv;
-//    TextView dialog_phone_tv;
-//    ImageView dialog_avatar_img;
-//    Button dialog_button_call;
+    TextView dialog_name_tv;
+    TextView dialog_phone_tv;
+    ImageView dialog_avatar_img;
+    Button dialog_button_call;
     RecyclerView rv_hospital;
     HospitalAdapter mAdpter;
 
@@ -63,31 +63,31 @@ public class HospitalFragment extends Fragment implements HospitalAdapter.OnItem
         rv_hospital.setAdapter(mAdpter);
 
 
-//        myDialog = new Dialog(getContext());
-//        myDialog.setContentView(R.layout.dialog_history);
-//        myDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-//        dialog_name_tv = (TextView) myDialog.findViewById(R.id.dialog_name_id);
-//        dialog_phone_tv = (TextView) myDialog.findViewById(R.id.dialog_phone_id);
-//        dialog_avatar_img = (ImageView) myDialog.findViewById(R.id.dialog_image_avatar);
-//        dialog_button_call = (Button) myDialog.findViewById(R.id.dialog_button_call);
-//        dialog_button_call.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent callIntent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:"+ dialog_phone_tv.getText()));
-//                startActivity(callIntent);
-//            }
-//        });
+        myDialog = new Dialog(getContext());
+        myDialog.setContentView(R.layout.dialog_history);
+        myDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog_name_tv = (TextView) myDialog.findViewById(R.id.dialog_name_id);
+        dialog_phone_tv = (TextView) myDialog.findViewById(R.id.dialog_phone_id);
+        dialog_avatar_img = (ImageView) myDialog.findViewById(R.id.dialog_image_avatar);
+        dialog_button_call = (Button) myDialog.findViewById(R.id.dialog_button_call);
+        dialog_button_call.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent callIntent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:"+ dialog_phone_tv.getText()));
+                startActivity(callIntent);
+            }
+        });
         return v;
     }
 
     @Override
     public void onItemClick(int position) {
-//        dialog_name_tv.setText(doctors.get(position).getName());
-//        dialog_phone_tv.setText(doctors.get(position).getPhone()+"");
-//        Picasso.with(getContext())
-//                .load(doctors.get(position).getAvatar_url())
-//                .into(dialog_avatar_img);
-//        myDialog.show();
+        dialog_name_tv.setText(doctors.get(position).getName());
+        dialog_phone_tv.setText(doctors.get(position).getPhone()+"");
+        Picasso.with(getContext())
+                .load(doctors.get(position).getAvatar_url())
+                .into(dialog_avatar_img);
+        myDialog.show();
     }
 
 }
