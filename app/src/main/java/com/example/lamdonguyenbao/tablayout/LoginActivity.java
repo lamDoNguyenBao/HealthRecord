@@ -6,14 +6,17 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.sql.SQLOutput;
 
 import okhttp3.FormBody;
@@ -28,7 +31,7 @@ public class LoginActivity extends AppCompatActivity {
     SharedPreferences sharedpreferences;
 
     public static final String mypreference  = "mypre";
-    public static final String token = "abcd";
+    public static final String token1 = "abcd";
 
     private TextView tvRegister;
     private EditText username;
@@ -45,9 +48,7 @@ public class LoginActivity extends AppCompatActivity {
 
         sharedpreferences =  getSharedPreferences(mypreference, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedpreferences.edit();
-        editor.clear();
-        if(sharedpreferences.contains(token)){
-            System.out.println(sharedpreferences.getString(token,""));
+        if(sharedpreferences.contains(token1)){
             Intent intent = new Intent(LoginActivity.this,MainActivity.class);
             startActivity(intent);
         }
@@ -55,18 +56,9 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void onClick(View view) {
-
         if(!validate()){
-            //postRequest();
-            String n ="";
-            SharedPreferences.Editor editor = sharedpreferences.edit();
-            editor.putString(token,n);
-            editor.commit();
-            Intent intent = new Intent(LoginActivity.this,MainActivity.class);
-            startActivity(intent);
+            postRequest();
         }
-
-
     }
 
     public void postRequest(){
@@ -74,7 +66,6 @@ public class LoginActivity extends AppCompatActivity {
         AsyncTask asyncTask = new AsyncTask() {
             @Override
             protected Object doInBackground(Object[] objects) {
-
                 OkHttpClient client = new OkHttpClient();
 
                 RequestBody requestBody = new FormBody.Builder()
@@ -90,33 +81,31 @@ public class LoginActivity extends AppCompatActivity {
                     Response response = client.newCall(request).execute();
 
                     return  response.body().string();
-
-
                 }catch (Exception ex){
-
                     ex.printStackTrace();
-
                 }
                 return null;
             }
 
             @Override
             protected void onPostExecute(Object o) {
-
                 try {
-                    JSONArray array = new JSONArray(o);
+                    JSONArray array = new JSONArray("["+o+"]");
                     for (int i = 0; i < array.length(); i++) {
                         JSONObject object = array.getJSONObject(i);
-                        tvRegister.setText(object.getString("success"));
-                       // String str = object.getString("success");
-//                        if(str == "true"){
-//                            Intent intent = new Intent(LoginActivity.this,ShowInformationActivity.class);
-//                            startActivity(intent);
-//                        }else{
-//                            Toast.makeText(getApplicationContext(),"Fail",Toast.LENGTH_SHORT).show();
-//                        }
+                        //tvRegister.setText(object.getString("success"));
+                        String str = object.getString("success");
+                        String token = object.getString("token");
+                        if(str == "true"){
+                            Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+                            SharedPreferences.Editor editor = sharedpreferences.edit();
+                            editor.putString(token1,token);
+                            editor.commit();
+                            startActivity(intent);
+                        }else{
+                            Toast.makeText(getApplicationContext(),"Fail",Toast.LENGTH_SHORT).show();
+                        }
                     }
-
                 }catch (Exception ex){
                     ex.printStackTrace();
                 }
@@ -124,6 +113,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         }.execute();
     }
+
 
     private boolean validate() {
 
