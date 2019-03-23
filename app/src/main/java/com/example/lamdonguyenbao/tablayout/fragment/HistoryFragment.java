@@ -1,7 +1,9 @@
 package com.example.lamdonguyenbao.tablayout.fragment;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
@@ -27,9 +29,15 @@ import com.squareup.moshi.Moshi;
 import com.squareup.moshi.Types;
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.lang.reflect.Type;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import okhttp3.Call;
@@ -52,7 +60,7 @@ public class HistoryFragment extends Fragment implements UserAdapter.OnItemClick
     Button dialog_button_call;
     RecyclerView rvUsers;
     UserAdapter mAdpter;
-
+    SharedPreferences sharedPreferences;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,8 +69,25 @@ public class HistoryFragment extends Fragment implements UserAdapter.OnItemClick
 
     public ArrayList<History> createData(){
         ArrayList<History> history = new ArrayList<>();
-        history.add(new History("Đau dạ dày","Sử dụng thuốc","Nội soi","gastropulghe, panacetamol","03-02-2019","03-06-2019"));
-        history.add(new History("Đau đầu","Uống thuốc","Chuẩn đoán triệu chứng","pnaldo,genstrimano","20-1-2019","20-5-2019"));
+        sharedPreferences = getActivity().getSharedPreferences("mypre", Context.MODE_PRIVATE);
+        String arrayMedical = sharedPreferences.getString("medicalHistory","");
+        try {
+            JSONArray medicalHistory = new JSONArray(arrayMedical);
+            for(int i =0; i< medicalHistory.length();i++){
+                JSONObject exam = medicalHistory.getJSONObject(i);
+                String name = exam.getString("name");
+                String treatment = exam.getString("treatment");
+                String medicaltest = exam.getString("medicaltest");
+                String drug = exam.getString("drug");
+                JSONObject time = exam.getJSONObject("time");
+                JSONObject retime = exam.getJSONObject("reexamination");
+                Date examDate = convertTimestamptoDate(time.getInt("_seconds"));
+                Date reExamDate = convertTimestamptoDate(retime.getInt("_seconds"));
+                history.add(new History(name,treatment,medicaltest,drug,examDate.toString(),reExamDate.toString()));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         return history;
     }
 
@@ -103,5 +128,10 @@ public class HistoryFragment extends Fragment implements UserAdapter.OnItemClick
 
         dialog_history_image_avatar.setImageResource(R.drawable.hospital);
         myDialog.show();
+    }
+    public Date convertTimestamptoDate(int time){
+        Timestamp stamp = new Timestamp(time);
+        Date date = new Date(stamp.getTime());
+        return date;
     }
 }
